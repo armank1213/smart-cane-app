@@ -13,6 +13,7 @@ export default function LoginScreen({ navigation }) {
     if (!email || !password) {
       Alert.alert('Missing Fields', 'Please enter both email and password.');
       return;
+      // Check Commit
     }
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
