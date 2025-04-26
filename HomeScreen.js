@@ -70,7 +70,6 @@ export default function HomeScreen() {
       let loc = await Location.getCurrentPositionAsync({});
       setLocation(loc.coords);
 
-      // Optional: Keep updating location
       await Location.watchPositionAsync(
         { accuracy: Location.Accuracy.High, timeInterval: 5000, distanceInterval: 5 },
         (locUpdate) => {
