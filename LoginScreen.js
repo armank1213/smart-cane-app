@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { app } from './firebaseConfig';
 
@@ -13,8 +13,8 @@ export default function LoginScreen({ navigation }) {
     if (!email || !password) {
       Alert.alert('Missing Fields', 'Please enter both email and password.');
       return;
-      // Check Commit
     }
+    
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -63,6 +63,9 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+
+      <Image source={require('./assets/CaneSmartOfficial.png')} style={styles.logo} />
+
       <Text style={styles.title}>Smart Cane</Text>
 
       <TextInput
@@ -106,12 +109,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     backgroundColor: '#F0F8FF',
   },
+  logo: {
+    width: 150,
+    height: 150,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
   title: {
     fontSize: 36,
     fontWeight: 'bold',
     color: '#003366',
     textAlign: 'center',
-    marginBottom: 50,
+    marginBottom: 30,
   },
   input: {
     height: 55,
