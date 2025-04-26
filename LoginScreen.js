@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { app } from './firebaseConfig';
 
-// Add forgot password funcitionality
-// Add logo for Smart Cane App
-
-export default function LoginScreen({ navigation }) {  // <-- ADD navigation prop here
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -22,7 +19,7 @@ export default function LoginScreen({ navigation }) {  // <-- ADD navigation pro
         const user = userCredential.user;
         console.log('Logged in as:', user.email);
         Alert.alert('Login Success', `Welcome back, ${user.email}`);
-        navigation.navigate('Home');  // <-- ADD: go to HomeScreen after login
+        navigation.navigate('HomeScreen');
       })
       .catch((error) => {
         console.error('Login error:', error.message);
@@ -40,11 +37,26 @@ export default function LoginScreen({ navigation }) {  // <-- ADD navigation pro
         const user = userCredential.user;
         console.log('Registered as:', user.email);
         Alert.alert('Registration Success', `Account created for ${user.email}`);
-        navigation.navigate('Home');  // <-- ADD: go to HomeScreen after signup
+        navigation.navigate('HomeScreen');
       })
       .catch((error) => {
         console.error('Signup error:', error.message);
         Alert.alert('Signup Failed', error.message);
+      });
+  };
+
+  const handleForgotPassword = () => {
+    if (!email) {
+      Alert.alert('Enter Email', 'Please enter your email address first.');
+      return;
+    }
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        Alert.alert('Password Reset Email Sent', 'Check your inbox.');
+      })
+      .catch((error) => {
+        console.error('Password reset error:', error.message);
+        Alert.alert('Error', error.message);
       });
   };
 
@@ -79,6 +91,9 @@ export default function LoginScreen({ navigation }) {  // <-- ADD navigation pro
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity onPress={handleForgotPassword}>
+        <Text style={styles.forgotText}>Forgot Password?</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -120,10 +135,18 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 12,
     alignItems: 'center',
+    marginBottom: 10,
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: '600',
+  },
+  forgotText: {
+    color: '#0077CC',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 10,
+    textDecorationLine: 'underline',
   },
 });
