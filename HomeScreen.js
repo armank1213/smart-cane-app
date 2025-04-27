@@ -123,9 +123,6 @@ export default function HomeScreen() {
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity>
 
-
-      <Text style={styles.mapTitle}>Your Real-Time Location</Text>
-
       {location ? (
         <MapView
           style={styles.map}
@@ -215,14 +212,6 @@ const styles = StyleSheet.create({
   contactText: {
     fontSize: 18,
     color: '#003366',
-  },
-  mapTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#003366',
-    textAlign: 'center',
-    marginBottom: 10,
-    marginTop: 10,
   },
   map: {
     width: '100%',
